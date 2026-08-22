@@ -1,0 +1,38 @@
+[
+  {
+    "prescription_id": "1.0",
+    "patient_info": {
+      "dept": "xxx",
+      "age": "xxx",
+      "gender": "xxx",
+      "diagnosis": "窦性心动过速(窦性心动过速)，甲状腺功能减退症(甲状腺功能减退症)，焦虑抑郁状态(焦虑抑郁状态)，维生素D缺乏病(维生素d缺乏病)"
+    },
+    "drug_count_total": 2,
+    "medications": [
+      {
+        "drug_name": "丙戊酸镁缓释片",
+        "specification": "0.25g×30片",
+        "manufacturer": "湖南省湘中制药有限公司",
+        "usage_dosage": "0.25g b.i.d.(早晚)",
+        "administration_route": "口服",
+        "is_reasonable": false,
+        "gold_standard_labels": [
+          "适应症不适宜"
+        ],
+        "extra_info": ""
+      },
+      {
+        "drug_name": "布南色林片",
+        "specification": "4mg×10片",
+        "manufacturer": "Sumitomo Dainippon Pharma Co., Ltd.",
+        "usage_dosage": "4mg b.i.d.(早晚)",
+        "administration_route": "口服",
+        "is_reasonable": false,
+        "gold_standard_labels": [
+          "适应症不适宜"
+        ],
+        "extra_info": ""
+      }
+    ]
+  }  
+]
