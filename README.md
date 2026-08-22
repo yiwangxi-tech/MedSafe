@@ -1,10 +1,8 @@
 # MedSafe
 
-<<<<<<< HEAD
+
 ![Graph abstract](./graph_abstract.png)
 
-=======
->>>>>>> 429fcd61323be90e7150aedda35498f2217d031e
 This project runs batch prescription audits by driving `opencode` in non-interactive mode and letting it retrieve evidence from Neo4j through MCP tools.
 
 The workflow is:
