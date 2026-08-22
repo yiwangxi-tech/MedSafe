@@ -1,0 +1,128 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "server": {
+    "port": 7000
+  },
+  "permission": {
+    "edit": "deny",
+    "bash": "deny"
+  },
+  "agent": {
+    "build": {
+      "temperature": 0.5
+    }
+  },
+  "mcp": {
+    "neo4j": {
+      "type": "local",
+      "command": [
+        "/path/to/bin/python",
+        "-m",
+        "neo4j_mcp_server"
+      ],
+      "enabled": true,
+      "environment": {
+        "NEO4J_URI": "",
+        "NEO4J_USERNAME": "",
+        "NEO4J_PASSWORD": "",
+        "NEO4J_DATABASE": "neo4j",
+        "NEO4J_READ_ONLY": "true"
+      }
+    }
+  },
+    "tools": {
+    "neo4j_get-schema": false,
+    "neo4j_list-gds-procedures": false,
+    "neo4j_write-cypher": false
+  },  
+  "provider": {
+    "zen": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "OpenCode Zen",
+      "options": {
+        "baseURL": "https://opencode.ai/zen/v1",
+        "apiKey": ""
+      },
+      "models": {
+        "deepseek-v4-flash-free": {
+          "name": "DeepSeek V4 Flash Free",
+          "limit": {
+            "context": 80000,
+            "output": 4096
+          }
+        }
+      }
+    },
+    "api": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "api",
+      "options": {
+        "baseURL": "xxx",
+        "apiKey": ""
+      },
+      "models": {
+        "deepseek-v4-pro": {
+          "name": "deepseek-v4-pro",
+          "limit": {
+            "context": 80000,
+            "output": 4096
+          }
+        }
+      }
+    },
+    "vllm_local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Local vLLM",
+      "options": {
+        "baseURL": "http://127.0.0.1:8000/v1",
+        "apiKey": "EMPTY"
+      },
+      "models": {
+        "qwen3.6-27b": {
+          "name": "qwen3.6-27b",
+          "limit": {
+            "context": 40000,
+            "output": 4096
+          }
+        }
+      }
+    },
+    "vllm_remote_31010": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Remote vLLM 31010",
+      "options": {
+        "baseURL": "",
+        "apiKey": "EMPTY"
+      },
+      "models": {
+        "gemma-4-31b-it": {
+          "name": "gemma-4-31b-it",
+          "limit": {
+            "context": 40000,
+            "output": 4096
+          }
+        }
+      }
+    },
+    "vllm_remote_32066": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Remote vLLM 32066",
+      "options": {
+        "baseURL": "",
+        "apiKey": "EMPTY"
+      },
+      "models": {
+        "gemma-4-31b-it": {
+          "name": "gemma-4-31b-it",
+          "limit": {
+            "context": 40000,
+            "output": 4096
+          }
+        }
+      }
+    }
+  },
+  "model": "vllm_local/qwen3.6-27b",
+  "small_model": "vllm_local/qwen3.6-27b"
+}

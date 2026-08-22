@@ -1,0 +1,108 @@
+{
+  "run_name": "Qwen3.6_neo4j_mcp",
+  "evaluation": {
+    "request_interval": 1.0,
+    "max_retry": 1,
+    "limit": null,
+    "force_rerun": false,
+    "require_neo4j_tool_call": true
+  },
+  "opencode": {
+    "binary": "opencode",
+    "attach_url": "http://127.0.0.1:7000",
+    "project_dir": "/path/to/MedSafe/opencode_project",
+    "model": "vllm_local/qwen3.6-27b",
+    "agent": null,
+    "request_timeout": 600,
+    "session_message_poll_timeout": 5.0,
+    "session_message_poll_interval": 0.25,
+    "session_message_stable_reads": 2,
+    "extra_run_args": [],
+    "auto_start_server": false,
+    "serve_command": [
+      "opencode",
+      "serve",
+      "--port",
+      "7000"
+    ],
+    "serve_cwd": "/path/to/MedSafe/opencode_project",
+    "startup_timeout": 30,
+    "startup_poll_interval": 1.0
+  },
+  "multi_agent": {
+    "enabled": true,
+    "skill_name": "prescription-audit",
+    "subagent_skill_names": {
+      "agent_1": "prescription-audit-1",
+      "agent_2": "prescription-audit-2",
+      "agent_3": "prescription-audit-3"
+    },
+    "confidence_threshold": 0.5,
+    "agent_models": {
+      "agent_1": "vllm_local/qwen3.6-27b",
+      "agent_2": "vllm_local/qwen3.6-27b",
+      "agent_3": "vllm_local/qwen3.6-27b"
+    },
+    "sub_agents": [
+      {
+        "id": "agent_1",
+        "labels": [
+          "B",
+          "D"
+        ],
+        "name": "usage_route_agent"
+      },
+      {
+        "id": "agent_2",
+        "labels": [
+          "C",
+          "G"
+        ],
+        "name": "indication_selection_agent"
+      },
+      {
+        "id": "agent_3",
+        "labels": [
+          "E",
+          "F"
+        ],
+        "name": "interaction_duplicate_agent"
+      }
+    ],
+    "decision_priority": [
+      "E",
+      "F",
+      "B",
+      "C",
+      "D",
+      "G"
+    ],
+    "judge_enabled": true,
+    "max_agent_evidence_bullets": 5,
+    "max_final_evidence_bullets": 8
+  },
+  "output": {
+    "result_columns": [
+      "prescription_id",
+      "dept",
+      "age",
+      "gender",
+      "diagnosis",
+      "medications",
+      "gold_standard_labels",
+      "audit_result",
+      "predicted_labels",
+      "predicted_relation_edges",
+      "_output_status"
+    ],
+    "write_progress_csv": true,
+    "write_raw_outputs_jsonl": true,
+    "write_result_csv": true,
+    "write_opencode_debug_jsonl": true,
+    "write_metrics_binary_csv": true,
+    "write_metrics_multilabel_csv": true,
+    "write_metrics_edge_csv": true,
+    "write_leaderboard_csv": true,
+    "write_summary_json": true
+  }
+}
