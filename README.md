@@ -19,6 +19,8 @@ MedSafe/
   opencode_project/
     AGENTS.md
     opencode.json
+  sample_example/
+    prescription_benchmark.json
   src/opencode_kg_batch_eval/
     config.py
     io_utils.py
