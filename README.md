@@ -6,7 +6,7 @@
 This project runs batch prescription audits by driving `opencode` in non-interactive mode and letting it retrieve evidence from Neo4j through MCP tools.
 
 Task allocation for sub-agent:
-- `agent_1`: B/D audit labels, sharing dosage, route, form, and frequency evidence.
+- `agent_1`: B/D audit labels, using dosage, route, form, and frequency evidence.
 - `agent_2`: C/G audit labels, using indication, contraindication, precaution, and special-population evidence.
 - `agent_3`: E/F audit labels, using interaction or incompatibility and therapeutic duplication evidence.
 
