@@ -1,4 +1,5 @@
 import json
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any, Dict, List
 
 from .io_utils import safe_json_dumps
@@ -734,7 +735,7 @@ def _run_subagent(
         }
 
     subagent_runner = _runner_for_subagent(runner)
-    subagent_runner.session_id = config["opencode"].get("session_id") or server.create_session()
+    subagent_runner.session_id = server.create_session()
     prompt = build_subagent_prompt(item, subagent_id, agent_cfg)
     model_override = _agent_model(agent_cfg, subagent_id) or None
     subagent_runner.model_override = model_override
@@ -836,13 +837,61 @@ def run_multi_agent_audit(
     agent_results_by_label: Dict[str, Dict[str, Any]] = {}
     raw_agent_outputs: Dict[str, Any] = {}
 
-    subagent_results = []
-    for subagent_id in subagent_ids:
-        subagent_results.append(
-            _run_subagent(runner, server, item, config, subagent_id, max_evidence, prescription_id)
-        )
+    subagent_results_by_id: Dict[str, Dict[str, Any]] = {}
+    max_workers = max(1, len(subagent_ids))
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_map = {
+            executor.submit(_run_subagent, runner, server, item, config, subagent_id, max_evidence, prescription_id): subagent_id
+            for subagent_id in subagent_ids
+        }
+        for future in as_completed(future_map):
+            subagent_id = future_map[future]
+            try:
+                subagent_results_by_id[subagent_id] = future.result()
+            except Exception as exc:
+                subagent_results_by_id[subagent_id] = {
+                    "subagent_id": subagent_id,
+                    "parsed": {
+                        "status": "error",
+                        "prescription_id": prescription_id,
+                        "subagent_id": subagent_id,
+                        "parsed_by_label": {
+                            label: {
+                                "status": "error",
+                                "prescription_id": prescription_id,
+                                "label": label,
+                                "subagent_id": subagent_id,
+                                "issue_present": False,
+                                "confidence": 0.0,
+                                "evidence_summary": [f"subagent_exception: {type(exc).__name__}"],
+                                "related_pairs": [],
+                                "raw_output": "",
+                                "returncode": 1,
+                                "stderr": str(exc),
+                            }
+                            for label in SUBAGENT_DEFINITIONS[subagent_id]["labels"]
+                        },
+                        "raw_output": "",
+                    },
+                    "raw_agent_output": {
+                        "parsed": {},
+                        "command": [],
+                        "returncode": 1,
+                        "stderr": str(exc),
+                        "assistant_output": "",
+                        "tool_summary": _empty_tool_summary(),
+                        "event_summary": f"{subagent_id}=exception:{type(exc).__name__}",
+                        "session_message_debug": {},
+                        "kg_interaction_summary": _empty_kg_interaction_summary(),
+                        "finalize": None,
+                    },
+                    "tool_summary": _empty_tool_summary(),
+                    "kg_interaction_summary": _empty_kg_interaction_summary(),
+                    "event_summaries": [f"{subagent_id}=exception:{type(exc).__name__}"],
+                }
 
-    for subagent_result in subagent_results:
+    for subagent_id in subagent_ids:
+        subagent_result = subagent_results_by_id[subagent_id]
         subagent_id = subagent_result["subagent_id"]
         parsed = subagent_result["parsed"]
         raw_agent_outputs[subagent_id] = subagent_result["raw_agent_output"]
