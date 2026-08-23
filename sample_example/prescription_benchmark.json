@@ -5,7 +5,7 @@
       "dept": "xxx",
       "age": "xxx",
       "gender": "xxx",
-      "diagnosis": "窦性心动过速(窦性心动过速)，甲状腺功能减退症(甲状腺功能减退症)，焦虑抑郁状态(焦虑抑郁状态)，维生素D缺乏病(维生素d缺乏病)"
+      "diagnosis": "窦性心动过速，甲状腺功能减退症，焦虑抑郁状态，维生素D缺乏病"
     },
     "drug_count_total": 2,
     "medications": [
