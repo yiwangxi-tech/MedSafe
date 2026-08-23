@@ -8,7 +8,7 @@ This project runs batch prescription audits by driving `opencode` in non-interac
 Task allocation for sub-agent:
 - `agent_1`: Indication-contraindication agent, using indication, contraindication, precaution, and special-population evidence. 
 - `agent_2`: Dosage-route agent, using dosage, route, form, and frequency evidence.
-- `agent_3`: Interaction-duplication agent, using interaction or incompatibility and therapeutic duplication evidence.
+- `agent_3`: Interaction-duplication agent, using interaction and therapeutic duplication evidence.
 
 ## Directory layout
 
