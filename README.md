@@ -6,9 +6,11 @@
 This project runs batch prescription audits by driving `opencode` in non-interactive mode and letting it retrieve evidence from Neo4j through MCP tools.
 
 Task allocation for sub-agent:
-- `agent_1`: Indication-contraindication agent, using indication, contraindication, precaution, and special-population evidence. 
-- `agent_2`: Dosage-route agent, using dosage, route, form, and frequency evidence.
-- `agent_3`: Interaction-duplication agent, using interaction and therapeutic duplication evidence.
+- `agent_1`: Indication agent, using indication evidence.
+- `agent_2`: Contraindication agent, using contraindication, precaution, and special-population evidence. 
+- `agent_3`: Dosage-route agent, using dosage, route, form, and frequency evidence.
+- `agent_4`: Interaction agent, using interaction evidence.
+- `agent_5`: Duplication agent, using therapeutic duplication evidence.
 
 ## Directory layout
 
